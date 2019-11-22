@@ -10,38 +10,51 @@ namespace CodigoCesar
     {
         static void Main(string[] args)
         {
-            CodigoCesar();
-            Console.ReadKey();
-        }
-
-        static void CodigoCesar()
-        {
             Console.WriteLine("realizar un programa que encripte un texto mediante el cifrado César. El usuario introducirá el texto, y el número de desplazamiento.");
             Console.WriteLine("\n\n\n\n");
+            String texto;
+          
             Console.WriteLine("Introduce el mensaje a cifrar");
-            String texto = Console.ReadLine();
+            texto = Console.ReadLine();
             texto = texto.ToUpper();
             Console.WriteLine("Introduce el número de desplazamiento");
             uint desplazamiento = Convert.ToUInt32(Console.ReadLine());
             char[] Caracteres = texto.ToCharArray();
-
-            
-            string resultado = "";
-            for (int i = 0; i < Caracteres.Length; i++)
+            /*
+            bool comprobacion = Caracteres[].isLetterOrDigit();
+            if (comprobacion)
             {
-                uint convertidos = Convert.ToUInt32(Caracteres[i]);
-                Console.WriteLine("Posición " + (i + 1) + "=> " + Caracteres[i] + " Unicode = " + convertidos);
-                if (convertidos > 'A' && convertidos < 'Z')
+
+            }*/
+            int longitud = Caracteres.Length;
+            Console.WriteLine("Longitud= " + longitud);
+            CifrarMensaje(desplazamiento, texto, longitud);
+
+            Console.ReadKey();
+        }
+
+        public static void CifrarMensaje(uint clave, string mensaje, int longitud)
+        {
+
+            char[] mochila = new char[longitud];
+            for (int i = 0; i < longitud; i++)
+            {
+                
+                uint valorX = clave + mensaje[i];
+                if (valorX>'Z')
                 {
-                    Console.WriteLine("Estoy dentro");
-                    //desplazamiento += desplazamiento;
-                    convertidos = Convert.ToUInt32(Caracteres[i]);
-                   
-                   // if (convertidos > 'Z') { desplazamiento -= 26; }
-                    //if (convertidos < 'A') { desplazamiento += 26; }
+                    valorX -= 26;
                 }
+                if (valorX<'A')
+                {
+                    valorX += 26;
+                }
+                char ValorConvertido = Convert.ToChar(valorX);
+                mochila[i]= ValorConvertido;
+                //pendiente de revisar los espacios... permitir ingresar sólo las letras if alpha que haga bien los espacios, verificar que luego se pueda desencriptar también
+                //No tardes mucho que hay que hacer las pacs ..
             }
-            resultado += desplazamiento;
+            Console.WriteLine(mochila);
         }
     }
 }
