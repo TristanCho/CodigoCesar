@@ -18,7 +18,7 @@ namespace CodigoCesar
             uint desplazamiento;
             char[] Caracteres;
             int longitud;
-            
+
 
             do
             {
@@ -26,15 +26,40 @@ namespace CodigoCesar
                 Console.WriteLine("Introduce el mensaje a cifrar");
                 texto = Console.ReadLine();
                 texto = texto.ToUpper();
-                Console.WriteLine("Introduce el número de desplazamiento");
-                desplazamiento = Convert.ToUInt32(Console.ReadLine());
+                string Input;
+
+                do
+                {
+                    Console.WriteLine("Introduce el número de desplazamiento");
+                    Input = Console.ReadLine();
+                    while (Input == null)
+                    {
+                        Console.WriteLine("No se admiten valores nulos");
+                        Console.WriteLine("Introduce el número de desplazamiento");
+                        Input = Console.ReadLine();
+                        Console.Clear();
+                    }
+                    desplazamiento = Convert.ToUInt32(Input);
+                    while (desplazamiento>9)
+                    {
+                        Console.WriteLine("Inserta un número menor que 10");
+                        Input = Console.ReadLine();
+                        desplazamiento = Convert.ToUInt32(Input);
+                        Console.Clear();
+                    }
+                }
+
+                while (Input == null);
+
+                
                 Caracteres = texto.ToCharArray();
 
                 longitud = Caracteres.Length;
-                Console.WriteLine("Longitud= " + longitud);
+                //Console.WriteLine("Longitud= " + longitud);
                 CifrarMensaje(desplazamiento, texto, longitud);
                 Console.WriteLine("PARA DECIFRAR UN MENSAJE PULSE 0 ---- PARA CIFRAR OTRO MENSAJE PULSE 1");
                 ORDEN = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
             } while (ORDEN == 1);
 
             //DECIFRAR
@@ -46,10 +71,8 @@ namespace CodigoCesar
             Caracteres = texto.ToCharArray();
 
             longitud = Caracteres.Length;
-            Console.WriteLine("Longitud= " + longitud);
+           // Console.WriteLine("Longitud= " + longitud);
             DeCifrarMensaje(desplazamiento, texto, longitud);
-           
-
             Console.ReadKey();
         }
 
@@ -60,24 +83,25 @@ namespace CodigoCesar
             for (int i = 0; i < longitud; i++)
             {
                 uint valorX = clave + mensaje[i];
-                if (valorX > 'A' && valorX < 'Z') {
-                    
-                if (valorX>'Z')
+                if (valorX > 'A' && valorX < 'Z')
                 {
-                    valorX -= 26;
-                }
-                if (valorX<'A')
-                {
-                    valorX += 26;
-                }
-                    //else
-                      //  Console.WriteLine("!Letra=" + valorX);
+
+                    if (valorX > 'Z')
+                    {
+                        valorX -= 26;
+                    }
+                    if (valorX < 'A')
+                    {
+                        valorX += 26;
+                    }
+
                 }
                 char ValorConvertido = Convert.ToChar(valorX);
-                mochila[i]= ValorConvertido;
-                //pendiente de revisar los espacios... permitir ingresar sólo las letras if alpha que haga bien los espacios, verificar que luego se pueda desencriptar también
-                //No tardes mucho que hay que hacer las pacs ..
+                mochila[i] = ValorConvertido;
+
+
             }
+            Console.Write("RESULTADO: ");
             Console.WriteLine(mochila);
         }
 
@@ -87,8 +111,8 @@ namespace CodigoCesar
             char[] mochila = new char[longitud];
             for (int i = 0; i < longitud; i++)
             {
-                
-                uint valorX = mensaje[i] -clave;
+
+                uint valorX = mensaje[i] - clave;
                 if (valorX > 'A' && valorX < 'Z')
                 {
                     if (valorX > 'Z')
@@ -100,14 +124,12 @@ namespace CodigoCesar
                         valorX += 26;
                     }
                 }
-                //else
-                  //  Console.WriteLine("!Letra="+valorX);
-                
+
                 char ValorConvertido = Convert.ToChar(valorX);
                 mochila[i] = ValorConvertido;
-                //pendiente de revisar los espacios... permitir ingresar sólo las letras if alpha que haga bien los espacios, verificar que luego se pueda desencriptar también
-                //No tardes mucho que hay que hacer las pacs ..
+
             }
+            Console.Write("RESULTADO: ");
             Console.WriteLine(mochila);
         }
     }
